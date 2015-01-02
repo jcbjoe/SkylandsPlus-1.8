@@ -1,0 +1,5 @@
+name: "SkylandsPlus"
+version: "0.15.3"
+main: "uk.co.jacekk.bukkit.skylandsplus.SkylandsPlus"
+website: "http://dev.bukkit.org/server-mods/skylandsplus/"
+load: startup

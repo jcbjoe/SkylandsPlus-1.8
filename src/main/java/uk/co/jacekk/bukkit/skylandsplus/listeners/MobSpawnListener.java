@@ -1,0 +1,38 @@
+package uk.co.jacekk.bukkit.skylandsplus.listeners;
+
+import org.bukkit.entity.Entity;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.CreatureSpawnEvent;
+import uk.co.jacekk.bukkit.skylandsplus.SkylandsPlus;
+import uk.co.jacekk.bukkit.skylandsplus.generation.ChunkGenerator;
+
+public class MobSpawnListener
+  extends uk.co.jacekk.bukkit.baseplugin.event.BaseListener<SkylandsPlus> implements Listener
+{
+  public MobSpawnListener(SkylandsPlus plugin)
+  {
+    super(plugin);
+  }
+  
+  @EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
+  public void onCreatureSpawn(CreatureSpawnEvent event)
+  {
+    if ((event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.NATURAL) && ((event.getLocation().getWorld().getGenerator() instanceof ChunkGenerator)))
+    {
+      int total = 0;
+      for (Entity entity : event.getLocation().getChunk().getEntities()) {
+        if (entity.getClass().equals(event.getEntity().getClass()))
+        {
+          total++;
+          if (total > 4)
+          {
+            event.setCancelled(true);
+            return;
+          }
+        }
+      }
+    }
+  }
+}
